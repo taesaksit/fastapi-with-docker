@@ -9,5 +9,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # copy โค้ด
 COPY ./app /app
 
-# รัน FastAPI แบบ hot reload (dev mode)
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# # รัน FastAPI แบบ hot reload (dev mode)
+# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+# ใช้ Gunicorn + Uvicorn workers สำหรับ production
+CMD ["gunicorn", "-k", "uvicorn.workers.UvicornWorker", "main:app", "--bind", "0.0.0.0:8000", "--workers", "4"]
